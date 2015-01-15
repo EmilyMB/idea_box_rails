@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    if @user != current_user
+    if @user != current_user && !current_user.admin?
       redirect_to not_found_path
     end
   end

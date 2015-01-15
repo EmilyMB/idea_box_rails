@@ -66,4 +66,16 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     refute page.has_content?('Your Ideas:')
   end
 
+  test "an admin user can see someone else's ideas" do
+    admin = User.create(username: 'admin', password: 'password2', role: "admin")
+    user.ideas.create(name: 'Eating Ice Cream')
+    ApplicationController.any_instance.stubs(:current_user).returns(admin)
+    visit user_path(user)
+    assert_equal 200, page.status_code
+    within('#ideas') do
+      assert page.has_content?('Your Ideas:')
+      assert page.has_content?('Eating Ice Cream')
+    end
+  end
+
 end
