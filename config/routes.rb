@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
-
+  get '/not_found', to: redirect('/404')
 
   root :to => 'sessions#new'
   resources :users
