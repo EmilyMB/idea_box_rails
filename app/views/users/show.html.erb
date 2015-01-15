@@ -1,0 +1,7 @@
+<div id="ideas">
+  <h2>Your Ideas:</h2>
+  <% @user.ideas.each do |idea| %>
+    <%= idea.name %>
+  <% end %>
+  <%= link_to "Logout", logout_path, method: 'DELETE' %>
+</div>
