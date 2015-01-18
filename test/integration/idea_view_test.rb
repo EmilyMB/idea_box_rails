@@ -21,7 +21,31 @@ class IdeaViewTest < ActionDispatch::IntegrationTest
     end
   end
 
-  
+
+  test 'a logged in user can delete ideas' do
+    user.ideas.create(name: 'Eating Ice Cream', user_id: user.id)
+    ApplicationController.any_instance.stubs(:current_user).returns(user)
+    visit user_path(user)
+    click_link_or_button ('Delete')
+    within('#ideas') do
+      refute page.has_content?('Eating Ice Cream')
+    end
+  end
+
+  test 'a logged in user can edit an idea' do
+    user.ideas.create(name: 'Eating Ice Cream', user_id: user.id)
+    ApplicationController.any_instance.stubs(:current_user).returns(user)
+    visit user_path(user)
+    click_link_or_button ('Edit')
+    fill_in ("Name"), with: 'Eating Ice Cream Cones'
+    click_link_or_button ('Update Idea')
+    within('#ideas') do
+      assert page.has_content?('Eating Ice Cream Cones')
+    end
+  end
+
+
+#
 
   # test 'a logged in user can create ideas' do
   #   ApplicationController.any_instance.stubs(:current_user).returns(user)

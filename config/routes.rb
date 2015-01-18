@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   root :to => 'sessions#new'
   resources :users
-  resources :ideas, only: [:create, :edit, :new, :destroy]
+  resources :ideas, only: [:create, :edit, :new, :destroy, :update]
   scope module: 'admin' do
     resources :categories,  only: [:create, :index, :new, :destroy]
     post '/new', to: 'category#new'

@@ -1,6 +1,8 @@
 class IdeasController < ApplicationController
   #before_filter :authorize, only: [:show]
 
+  before_action :set_idea, only: [ :edit, :update, :destroy]
+
   def show
     # @user = User.find(params[:id])
     # if @user != current_user && !current_user.admin?
@@ -17,9 +19,28 @@ class IdeasController < ApplicationController
     redirect_to user_path(@idea.user_id)
   end
 
+  def destroy
+    user_id = @idea.user_id
+    @idea.destroy
+    flash[:message] = "Idea deleted"
+    redirect_to user_path(user_id)
+  end
+
+  def edit
+  end
+
+  def update
+    @idea.update(idea_params)
+    redirect_to user_path(@idea.user_id), notice: 'Idea was successfully updated.'
+  end
+
   private
 
   def idea_params
     params.require(:idea).permit(:name, :user_id)
+  end
+
+  def set_idea
+    @idea = Idea.find(params[:id])
   end
 end
