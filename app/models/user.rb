@@ -4,4 +4,6 @@ class User < ActiveRecord::Base
   has_many :ideas
 
   enum role: ["default", "admin"]
+
+
 end
