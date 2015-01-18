@@ -1,8 +1,12 @@
 <div id="idea_categories">
   <h2>Current Categories:</h2>
-  <% @categories.each do |category| %>
-  <%= category.name %></br>
-  <% end %>
+  <tbody>
+    <% @categories.each do |category| %>
+    <%= content_tag :div, category.name, id:"category_#{category.name}" %>
+    <%= category.id %>
+    <%= link_to 'Delete',  category,  id:"delete_cat_#{category.id}",  method: :delete, data: { confirm: 'Are you sure?' }  %>
+
+    <% end %>
 
   <p id="new_category"><%= link_to 'Add Category', new_category_path %></p>
 </div>

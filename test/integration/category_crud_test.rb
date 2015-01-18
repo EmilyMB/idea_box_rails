@@ -37,8 +37,27 @@ class CategoryCRUDTest < ActionDispatch::IntegrationTest
     ApplicationController.any_instance.stubs(:current_user).returns(admin)
     visit categories_path
     click_link_or_button 'Add Category'
-    assert_redirected_to new_category_path
+    #assert_redirected_to new_category_path
   end
+
+  test 'a logged in admin can destroy categories' do
+    category = Category.create(name: "Food3", id:15)
+    ApplicationController.any_instance.stubs(:current_user).returns(admin)
+    visit categories_path
+    click_link_or_button ('delete_cat_15')
+
+    within('#flash_message') do
+       assert page.has_content?('Category deleted')
+    end
+
+    refute page.has_content?("Food3")
+  end
+
+  # it 'has links to delete email addresses' do
+  #   person.email_addresses.each do |email|
+  #     expect(page).to have_link('delete', href: email_address_path(email))
+  #   end
+  # end
 
   # test 'user can login with valid credentials' do
   #  fill_in 'session[username]', with: 'example'

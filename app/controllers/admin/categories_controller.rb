@@ -10,8 +10,11 @@ module Admin
     end
 
     def destroy
-      # Category.destroy(params[:id])
-      flash[:notice] = "You have successfully deleted the category."
+    #  require 'pry', binding.pry
+      # puts "this is id #{id}"
+
+      Category.find(params[:id]).destroy
+      flash[:message] = "Category deleted"
       redirect_to categories_path
     end
 

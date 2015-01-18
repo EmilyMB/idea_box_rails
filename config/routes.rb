@@ -5,11 +5,13 @@ Rails.application.routes.draw do
   get '/logout', to: 'sessions#destroy'
   get '/not_found', to: redirect('/404')
 
+
   root :to => 'sessions#new'
   resources :users
   scope module: 'admin' do
-    resources :categories,  only: [:create, :index, :new]
+    resources :categories,  only: [:create, :index, :new, :destroy]
     post '/new', to: 'category#new'
+    #delete '/delete_category', to:'categories#destroy'
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
