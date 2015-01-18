@@ -11,8 +11,9 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def authorize
-    #redirect_to not_found_path if current_user.nil?
-   raise ActionController::RoutingError.new('Not Found') if current_user.nil?
+    #require 'pry'; binding.pry
+    redirect_to not_found_path if current_user.nil?
+   #raise ActionController::RoutingError.new('Not Found') if current_user.nil?
   #  render status: 404 if current_user.nil?
     # render :status => 404 if current_user.nil?
   end

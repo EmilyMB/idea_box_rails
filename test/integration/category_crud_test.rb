@@ -2,12 +2,12 @@ require 'test_helper'
 
 class CategoryCRUDTest < ActionDispatch::IntegrationTest
   include Capybara::DSL
-  # attr_reader :user
+  attr_reader :admin
   #
-  # def setup
-  #   @user = User.create(username: 'example', password: 'password')
-  #   visit root_url
-  # end
+  def setup
+    @admin = User.create(username: 'admin', password: 'password2', role: "admin")
+    #visit root_url
+  end
 
   test 'a logged in admin can see existing categories' do
     admin = User.create(username: 'admin', password: 'password2', role: "admin")
@@ -19,19 +19,27 @@ class CategoryCRUDTest < ActionDispatch::IntegrationTest
       assert page.has_content?('Food')
     end
   end
-  #
-  # test 'a logged in admin can create categories' do
-  #   user2 = User.create(username: 'example2', password: 'password2')
-  #   user.ideas.create(name: 'Eating Ice Cream')
-  #   ApplicationController.any_instance.stubs(:current_user).returns(user2)
-  #   visit category_path
-  #
-  #   click_link_or_button 'Add Category'
-  #   within('#flash_errors') do
-  #     assert page.has_content?('Invalid credentials')
-  #   end
-  # end
-  #
+
+  test 'a logged in user cannot see existing categories' do
+    user = User.create(username: 'bob4', password: 'bob4')
+    ApplicationController.any_instance.stubs(:current_user).returns(user)
+    visit categories_path
+    refute page.has_content?('Current Categories:')
+  end
+
+  test 'a not authenticated user cannot see existing categories' do
+    ApplicationController.any_instance.stubs(:current_user).returns(nil)
+    visit categories_path
+    refute page.has_content?('Current Categories:')
+  end
+
+  test 'a logged in admin can create categories' do
+    ApplicationController.any_instance.stubs(:current_user).returns(admin)
+    visit categories_path
+    click_link_or_button 'Add Category'
+    assert_redirected_to new_category_path
+  end
+
   # test 'user can login with valid credentials' do
   #  fill_in 'session[username]', with: 'example'
   #  fill_in 'session[password]', with: 'password'

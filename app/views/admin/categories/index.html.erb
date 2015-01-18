@@ -3,4 +3,6 @@
   <% @categories.each do |category| %>
   <%= category.name %></br>
   <% end %>
+
+  <p id="new_category"><%= link_to 'Add Category', new_category_path %></p>
 </div>
