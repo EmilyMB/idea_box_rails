@@ -6,6 +6,17 @@
   <%= f.label :name %>
   <%= f.text_field :name %>
 </div>
+<div class="field">
+  Images:
+</br>
+  <%= f.fields_for :images do |images_form| %>
+    <%= images_form.label "Delete link" %>
+    <%= images_form.check_box :_destroy %>
+    <%= images_form.label "Image Link" %>
+    <%= images_form.text_field :link %>
+
+  <% end %>
+</div>
 <div class="actions">
   <%= f.submit %>
 </div>

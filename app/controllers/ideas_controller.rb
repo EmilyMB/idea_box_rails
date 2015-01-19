@@ -4,6 +4,7 @@ class IdeasController < ApplicationController
 
   def new
     @idea = Idea.new(user_id: params[:id])
+    2.times { @idea.images.build}
   end
 
   def create
@@ -33,8 +34,9 @@ class IdeasController < ApplicationController
   private
 
   def idea_params
-    params.require(:idea).permit(:name, :user_id, :category_id)
+    params.require(:idea).permit(:name, :user_id, :category_id, images_attributes: [:id, :link])
   end
+
 
   def set_idea
     @idea = Idea.find(params[:id])

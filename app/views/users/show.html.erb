@@ -4,7 +4,10 @@
     <% @user.ideas.each do |idea| %>
     <li><%= idea.name %>
       <% if !idea.category.nil? %>
-        <%= idea.category.name %>
+        <%= idea.category.name %> 
+        <% idea.images.each do |image| %>
+          <%= image.link %>
+        <% end %>
       <% end %>
       <%= link_to 'Edit', edit_idea_path(idea) %>
       <%= link_to 'Delete', idea, method: :delete, data: { confirm: 'Are you sure?' } %>
