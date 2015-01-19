@@ -1,5 +1,5 @@
 class IdeasController < ApplicationController
-  #before_filter :authorize, only: [:show]
+  before_filter :authorize, only: [:create, :edit, :update, :destroy]
 
   before_action :set_idea, only: [ :edit, :update, :destroy]
 
@@ -27,7 +27,11 @@ class IdeasController < ApplicationController
   end
 
   def edit
+    if current_user.id != @idea.user_id
+      redirect_to not_found_path
+    end
   end
+
 
   def update
     @idea.update(idea_params)
