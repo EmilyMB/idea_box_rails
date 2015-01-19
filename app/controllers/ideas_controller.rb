@@ -1,14 +1,6 @@
 class IdeasController < ApplicationController
   before_filter :authorize, only: [:create, :edit, :update, :destroy]
-
-  before_action :set_idea, only: [ :edit, :update, :destroy]
-
-  def show
-    # @user = User.find(params[:id])
-    # if @user != current_user && !current_user.admin?
-    #   redirect_to not_found_path
-    # end
-  end
+  before_filter :set_idea, only: [ :edit, :update, :destroy]
 
   def new
     @idea = Idea.new(user_id: params[:id])
@@ -41,7 +33,7 @@ class IdeasController < ApplicationController
   private
 
   def idea_params
-    params.require(:idea).permit(:name, :user_id)
+    params.require(:idea).permit(:name, :user_id, :category_id)
   end
 
   def set_idea

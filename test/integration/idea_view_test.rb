@@ -67,4 +67,14 @@ class IdeaViewTest < ActionDispatch::IntegrationTest
     visit edit_idea_path(new_idea.id)
     refute page.has_content?('Edit')
   end
+
+  test "a logged in user can select a category when creating an idea" do
+    ApplicationController.any_instance.stubs(:current_user).returns(user)
+    visit user_path(user)
+    click_link_or_button 'Add Idea'
+    fill_in ("Name"), with: 'Running'
+  #  find('idea_categories').find(:xpath, 'option[2]').select_option
+    #find_field('restrictions__rating_movies').find('option[selected]').text
+    click_link_or_button ('Create Idea')
+  end
 end
