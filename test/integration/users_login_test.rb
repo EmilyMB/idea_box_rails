@@ -78,4 +78,28 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "an admin user can see a link to the categories page" do
+    admin = User.create(username: 'admin', password: 'password2', role: "admin")
+    ApplicationController.any_instance.stubs(:current_user).returns(admin)
+    visit user_path(user)
+    click_link_or_button("Manage categories")
+    assert current_path == categories_path
+  end
+
+  test "an admin user can see a link to the images page" do
+    admin = User.create(username: 'admin', password: 'password2', role: "admin")
+    ApplicationController.any_instance.stubs(:current_user).returns(admin)
+    visit user_path(user)
+    click_link_or_button("Manage images")
+    assert current_path == images_path
+  end
+
+  test "a non-admin user cannot see links to the images categories page" do
+    ApplicationController.any_instance.stubs(:current_user).returns(user)
+    visit user_path(user)
+    refute page.has_link?("Manage categories", visible: true)
+    refute page.has_link?("Manage images", visible: true)
+    assert current_path == user_path(user)
+  end
+
 end

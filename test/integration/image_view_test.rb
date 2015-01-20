@@ -20,7 +20,6 @@ class ImageViewTest < ActionDispatch::IntegrationTest
   end
 
   test 'a logged in user cannot see existing images' do
-    skip
     user = User.create(username: 'bob4', password: 'bob4')
     ApplicationController.any_instance.stubs(:current_user).returns(user)
     visit images_path
@@ -28,32 +27,35 @@ class ImageViewTest < ActionDispatch::IntegrationTest
   end
 
   test 'a not authenticated user cannot see existing images' do
-    skip
     ApplicationController.any_instance.stubs(:current_user).returns(nil)
     visit images_path
     refute page.has_content?('Current Images:')
   end
 
   test 'a logged in admin can create images' do
-    skip
     ApplicationController.any_instance.stubs(:current_user).returns(admin)
     visit images_path
     click_link_or_button 'Add Image'
-    #assert_redirected_to new_image_path
+    assert current_path == new_image_path
+    fill_in 'image_link', with: 'example.com'
+    click_link_or_button 'Save image info'
+    assert_equal images_path, current_path
+    within('#flash_notice') do
+      assert page.has_content?('Image saved.')
+    end
   end
 
   test 'a logged in admin can destroy images' do
-    skip
-    image = Image.create(name: "Food3", id:15)
+    image = Image.create(link: "Food3.io", id:150)
     ApplicationController.any_instance.stubs(:current_user).returns(admin)
     visit images_path
-    click_link_or_button ('delete_cat_15')
+    click_link_or_button ('delete_150')
 
     within('#flash_message') do
       assert page.has_content?('Image deleted')
     end
 
-    refute page.has_content?("Food3")
+    refute page.has_content?("Food3.io")
   end
 
 end

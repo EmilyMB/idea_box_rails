@@ -4,7 +4,7 @@
     <% @user.ideas.each do |idea| %>
     <li><%= idea.name %>
       <% if !idea.category.nil? %>
-        <%= idea.category.name %> 
+        <%= idea.category.name %>
         <% idea.images.each do |image| %>
           <%= image.link %>
         <% end %>
@@ -14,6 +14,13 @@
     </li>
     <% end %>
   </ul>
+
   <%= link_to "Add Idea", new_idea_path %></br>
+  <% if current_user.admin? %>
+    <%= link_to "Manage categories", categories_path %></br>
+    <%= link_to "Manage images", images_path %></br>
+  <% end %>
+
   <%= link_to "Logout", logout_path, method: 'DELETE' %>
+
 </div>

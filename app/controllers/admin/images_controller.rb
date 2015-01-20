@@ -23,11 +23,11 @@ module Admin
     end
 
     def create
-      @image = Image.new(category_params)
+      @image = Image.new(image_params)
 
       respond_to do |format|
         if @image.save
-          format.html { redirect_to images_path, notice: 'Image was successfully created.' }
+          format.html { redirect_to images_path, notice: 'Image saved.' }
         else
          format.html { render :new }
         end
