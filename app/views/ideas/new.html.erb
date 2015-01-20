@@ -6,15 +6,10 @@
   <%= f.label :name %>
   <%= f.text_field :name %>
 </div>
-<div class="field">
-Images:
-  <%= f.fields_for :images do |images_form| %>
-  <li>
-    <%= images_form.label "Image Link" %>
-    <%= images_form.text_field :link %>
-  </li>
-  <% end %>
-</div>
+
+
+<%= f.select(:images, Image.all.collect { |i| [ i.link, i.id]}, {},{:multiple => true}) %>
+
 <div class="field">
   <%= f.label :categories %>
   <%= f.collection_select(:category_id, Category.all, :id, :name) %>

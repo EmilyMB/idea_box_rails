@@ -1,0 +1,12 @@
+<div id="images">
+  <h2>Current Images:</h2>
+  <tbody>
+    <% @images.each do |image| %>
+    <%= content_tag :div, image.link, id:"image_#{image.link}" %>
+    <%= image.id %>
+    <%= link_to 'Delete',  image,  id:"delete_#{image.id}",  method: :delete, data: { confirm: 'Are you sure?' }  %>
+
+    <% end %>
+
+    <p id="new_image"><%= link_to 'Add Image', new_image_path %></p>
+  </div>

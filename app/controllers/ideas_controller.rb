@@ -9,6 +9,10 @@ class IdeasController < ApplicationController
 
   def create
     @idea = Idea.create(idea_params)
+    # require 'pry'; binding.pry
+    params[:idea][:images].each do |image_id|
+      @idea.idea_images.create(image_id: image_id.to_i ) unless image_id == ""
+    end
     redirect_to user_path(@idea.user_id)
   end
 
@@ -35,6 +39,7 @@ class IdeasController < ApplicationController
 
   def idea_params
     params.require(:idea).permit(:name, :user_id, :category_id, images_attributes: [:id, :link])
+    #  require 'pry'; binding.pry
   end
 
 
